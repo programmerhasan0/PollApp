@@ -1,5 +1,3 @@
-
-
 #App Name : Poll App
 #File name : PollApp/urls.py
 #Description : This the main router of the poll app.
