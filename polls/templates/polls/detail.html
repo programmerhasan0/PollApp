@@ -5,13 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>details of {{question}}</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap");
+      body {
+        font-family: "Hind-Siliguri", sans-serif;
+      }
+      p strong {
+        color: red;
+      }
+    </style>
   </head>
   <body>
-    <h1>{{question.question_text}}</h1>
-    <ul>
-      {% for choice in question.choice_set.all %}
-      <li>{{choice.choice_text}}</li>
-      {% endfor %}
-    </ul>
+    <form action="{% url 'vote' question.id %}" method="post">
+      {% csrf_token %}
+      <fieldset>
+        <legend><h1>{{question.question_text}}</h1></legend>
+        {% if error_message %}
+        <p><strong>{{error_message}}</strong></p>
+        {% endif %} {% for choice in question.choice_set.all %}
+        <input
+          type="radio"
+          name="choice"
+          id="choice{{forloop.counter}}"
+          value="{{choice.id}}"
+        />
+        <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label>
+        <br />
+        <br />
+        {% endfor %}
+      </fieldset>
+      <br />
+      <input type="submit" value="vote" />
+    </form>
   </body>
 </html>

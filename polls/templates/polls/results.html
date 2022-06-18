@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Results of {{question}}</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap");
+
+      body {
+        font-family: "Hind Siliguri", sans-serif;
+      }
+      body a {
+        text-decoration: none;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{question.question_text}}</h1>
+    <ul>
+      {% for choice in question.choice_set.all %}
+      <li>
+        {{choice.choice_text}} -- {{choice.votes}}
+        vote{{choice.votes|pluralize}}
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'detail' question.id%}"><button>Vote Again?</button></a>
+  </body>
+</html>

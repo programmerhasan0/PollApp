@@ -6,7 +6,8 @@
 #Date : 18/06/2022
 
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def homePage(request):
-    return HttpResponse("Hello, World! The app is running perfectly :)")
+   return render(request, 'home.html')
     
