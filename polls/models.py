@@ -1,4 +1,3 @@
-
 #App Name : Poll App
 #File name : polls/models.py
 #Description : this file defines the schema of the database for this app.
