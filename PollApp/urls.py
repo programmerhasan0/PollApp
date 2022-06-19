@@ -12,7 +12,7 @@ from django.urls import path, include
 from . import _views
 
 urlpatterns = [
-    path('', _views.homePage,  name='homepage'),
+    # path('', _views.homePage,  name='homepage'),
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
 ]

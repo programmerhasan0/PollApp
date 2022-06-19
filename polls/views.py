@@ -8,26 +8,33 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.views import generic
+from django.utils import timezone
 from .models import Choice, Question
 
 
 # route hanlder :GET --> /polls
-def index(request):
-    latestQuestionList = Question.objects.order_by('-pub_date')[:5]
-    context = {'latestQuestionList' : latestQuestionList}
-    return render(request, 'polls/index.html', context)
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latestQuestionList'
 
+    def get_queryset(self):
+        return Question.objects.filter(pub_date__lte = timezone.now()).order_by('-pub_date')[:5]
 
 
 # route handler :GET --> /polls/<id> 
-def detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/detail.html', {'question' : question})
+class DetailView(generic.DetailView):
+    template_name = 'polls/detail.html'
+    model = Question
+    def get_queryset(self):
+        # Exclude any question that aren't published yet
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 # route handler :GET --> /polls/<id>/results
-def results(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/results.html', {'question' : question})
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
+
 
 
 # route handler :POST --> /polls/<id>/vote
